@@ -1,13 +1,13 @@
 // Comment line!
 #include <iostream>
+#include <fstream>
 #include <cstdlib>
 #include <cmath>
 #include <iomanip>
-#include <math.h>       // to find log10
 
 using namespace std;
 
-int oppg22(int N);
+int oppg22(int N, ofstream* file);
 
 int main()
 {
@@ -29,29 +29,33 @@ int main()
 
     // Starting problem 2.2
 
-    int yesno;
-    int N;
-    int i;
+    int yesno, i, N;
 
-    cout << "Would you like a single series (0) or a for-loop (1)?" << endl;
+    cout << "Would you like a single series (0) or a for-loop (1)?" << endl << endl;
     cin >> yesno;
+
+    ofstream myfile;
+    myfile.open("tekstfil.dat");
 
             if(yesno == 0){
                 cout << "Summing 1/n. Choose N: " << endl;
                 cin >> N;
-                oppg22(N);
+                oppg22(N, &myfile);
             }else{
+
                 for(i=1; i < 11; i++){
                     N = pow(10,i);//10^i;
-                    oppg22(N);
+                    oppg22(N,&myfile);
                 } // end for loop
             } // end if
+
+
 
     return 0;
 } // ending main()
 
 
-int oppg22(int N)
+int oppg22(int N, ofstream* file)
 {
 /* Make a program which sums sup = sum(1/n) n=1 to n=N and sdown = sum(1/n) n=N to n=1.
 The program should read N from screen and write the final output to screen.
@@ -65,7 +69,7 @@ log_10(|(sup(N)−sdown(N))/sdown(N)|) as function of log_10(N). */
 
 
     int n;
-    float s_up, s_down, term_up, term_down;
+    float s_up, s_down, term_up, term_down, error;
 
     s_up = 0.0;
     s_down = 0.0;
@@ -78,10 +82,12 @@ log_10(|(sup(N)−sdown(N))/sdown(N)|) as function of log_10(N). */
 
         s_up += term_up;
         s_down += term_down;
+
+        error = log10(fabs((s_up-s_down)/s_down));
     } // end while loop
 
-    cout << "Sum of 1/n from n=1 to n=" << N << " is equal to " << setprecision(15) << s_up << endl;
-    cout << "Sum of 1/n from n=" << N << " to n=1 is equal to " << setprecision(15) << s_down << endl;
+    *file << setprecision(15) << N<< " " << s_up << " " << s_down << " " << error << endl;
+
 
     return 0;
 } // ending oppg. 2.2
@@ -92,7 +98,7 @@ log_10(|(sup(N)−sdown(N))/sdown(N)|) as function of log_10(N). */
 
 
 
-/*
+/*          ANSWERS
 FLOAT:
 
 Summing 1/n. Choose N:
@@ -101,11 +107,27 @@ Sum of 1/n from n=1 to n=10000 is equal to 9.78761292
 Sum of 1/n from n=10000 to n=1 is equal to 9.78760433
 
 
-
 DOUBLE:
 
 Summing 1/n. Choose N:
 10000
 Sum of 1/n from n=1 to n=10000 is equal to 9.78760604
 Sum of 1/n from n=10000 to n=1 is equal to 9.78760604
+
+When starting from a large number (starting from n=1), the new numbers will be
+small in comparison, and only a small part of them will actually contribute to the
+sum. As the terms grow smaller and smaller in size, the new ones will fall beneath
+the precision of the existing sum.
+So..
+The one starting at n=N is the most reliable one?
+
+
+
+BUT
+
+
+
+According to the answers I'm getting, the series starting at 1 is actually the largest. Though
+only for numbers up to 10⁵. From 10⁶, the series starting at N is the largest one. Tutors
+weren't sure why.
 */
