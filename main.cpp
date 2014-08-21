@@ -2,10 +2,12 @@
 #include <iostream>
 #include <cstdlib>
 #include <cmath>
+#include <iomanip>
+#include <math.h>       // to find log10
 
 using namespace std;
 
-int oppg22();
+int oppg22(int N);
 
 int main()
 {
@@ -22,11 +24,88 @@ int main()
     double s = sin(r);
     cout << "All right! Guess what, the sine of "<< r << " is " << s << "!" << endl << endl;
     cout << "How you doin'." << endl << endl;
+
+
+
+    // Starting problem 2.2
+
+    int yesno;
+    int N;
+    int i;
+
+    cout << "Would you like a single series (0) or a for-loop (1)?" << endl;
+    cin >> yesno;
+
+            if(yesno == 0){
+                cout << "Summing 1/n. Choose N: " << endl;
+                cin >> N;
+                oppg22(N);
+            }else{
+                for(i=1; i < 11; i++){
+                    N = pow(10,i);//10^i;
+                    oppg22(N);
+                } // end for loop
+            } // end if
+
     return 0;
-}
+} // ending main()
 
 
-int oppg22()
+int oppg22(int N)
 {
+/* Make a program which sums sup = sum(1/n) n=1 to n=N and sdown = sum(1/n) n=N to n=1.
+The program should read N from screen and write the final output to screen.
 
-}
+Compare sup og sdown for different N using both single and double precision
+for N up to N = 10^10. Which of the above formula is the most realiable one?
+Try to give an explanation of possible differences. One possibility for guiding
+the eye is for example to make a log-log-plot of the relative difference as a
+function of N in steps of 10^n with n=1,2,...,10. This means you need to compute
+log_10(|(sup(N)−sdown(N))/sdown(N)|) as function of log_10(N). */
+
+
+    int n;
+    float s_up, s_down, term_up, term_down;
+
+    s_up = 0.0;
+    s_down = 0.0;
+    n = 1;
+
+    while(n <= N){
+        term_up = 1./n;
+        term_down = 1./(N-n+1);
+        n++;
+
+        s_up += term_up;
+        s_down += term_down;
+    } // end while loop
+
+    cout << "Sum of 1/n from n=1 to n=" << N << " is equal to " << setprecision(15) << s_up << endl;
+    cout << "Sum of 1/n from n=" << N << " to n=1 is equal to " << setprecision(15) << s_down << endl;
+
+    return 0;
+} // ending oppg. 2.2
+
+
+
+
+
+
+
+/*
+FLOAT:
+
+Summing 1/n. Choose N:
+10000
+Sum of 1/n from n=1 to n=10000 is equal to 9.78761292
+Sum of 1/n from n=10000 to n=1 is equal to 9.78760433
+
+
+
+DOUBLE:
+
+Summing 1/n. Choose N:
+10000
+Sum of 1/n from n=1 to n=10000 is equal to 9.78760604
+Sum of 1/n from n=10000 to n=1 is equal to 9.78760604
+*/
