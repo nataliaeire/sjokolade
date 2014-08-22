@@ -8,18 +8,23 @@
 using namespace std;
 
 int oppg22(int N, ofstream* file);
+void oppg31();
 
 int main()
 {
-// Guessing char* argv[] means I'm getting the.. pointer? To.. what?
+    // Starting out - a.k.a a Hello World script.
 
-// We're converting the text argv[1] to double using atof:
+
+
+    // Guessing char* argv[] means I'm getting the.. pointer? To.. what?
+
+    // We're converting the text argv[1] to double using atof:
 
     double r;
 
     cout << "Hello, O fair one! What's your favourite number? ";
-    // Note that you can also end the previous line by adding << endl before ;.
-    // Then, the input from cin will appear on it's own line.
+    /* Note that you can also end the previous line by adding << endl before ;.
+    Then, the input from cin will appear on it's own line. */
     cin >> r;
     double s = sin(r);
     cout << "All right! Guess what, the sine of "<< r << " is " << s << "!" << endl << endl;
@@ -37,17 +42,35 @@ int main()
     ofstream myfile;
     myfile.open("tekstfil.dat");
 
-            if(yesno == 0){
-                cout << "Summing 1/n. Choose N: " << endl;
-                cin >> N;
-                oppg22(N, &myfile);
-            }else{
+    if(yesno == 0){
+        cout << "Summing 1/n. Choose N: " << endl;
+        cin >> N;
+        oppg22(N, &myfile);
+    }else{
 
-                for(i=1; i < 11; i++){
-                    N = pow(10,i);//10^i;
-                    oppg22(N,&myfile);
-                } // end for loop
-            } // end if
+        for(i=1; i < 11; i++){
+            N = pow(10,i);//10^i;
+            oppg22(N,&myfile);
+        } // end for loop
+    } // end if
+
+
+    // Second of the recommended questions; problem 3.1
+
+    x = linspace();
+    double* result = new double(N);
+
+    for (int i=0; i<N; i++) {
+        result[i] = 0;
+    }
+
+    ddx(int N, double h, double* x, double* result);
+
+
+
+
+    void oppg31_stepSize();
+    void oppg31_allXValues();
 
 
 
@@ -55,9 +78,11 @@ int main()
 } // ending main()
 
 
+// First of the recommended questions; problem 2.2
+
 int oppg22(int N, ofstream* file)
 {
-/* Make a program which sums sup = sum(1/n) n=1 to n=N and sdown = sum(1/n) n=N to n=1.
+    /* Make a program which sums sup = sum(1/n) n=1 to n=N and sdown = sum(1/n) n=N to n=1.
 The program should read N from screen and write the final output to screen.
 
 Compare sup og sdown for different N using both single and double precision
@@ -75,10 +100,11 @@ log_10(|(sup(N)−sdown(N))/sdown(N)|) as function of log_10(N). */
     s_down = 0.0;
     n = 1;
 
-    while(n <= N){
+    // while(n <= N){
+    for(n = 1; n<= N ; n++){
         term_up = 1./n;
         term_down = 1./(N-n+1);
-        n++;
+        //n++;
 
         s_up += term_up;
         s_down += term_down;
@@ -86,14 +112,51 @@ log_10(|(sup(N)−sdown(N))/sdown(N)|) as function of log_10(N). */
         error = log10(fabs((s_up-s_down)/s_down));
     } // end while loop
 
-    *file << setprecision(15) << N<< " " << s_up << " " << s_down << " " << error << endl;
-
+    *file << setiosflags(ios::showpoint | ios:: uppercase);
+    *file << setw(20) << setprecision(15) << N << " " << s_up << " " << s_down << " " << error << endl;
 
     return 0;
 } // ending oppg. 2.2
 
 
 
+
+void oppg31()
+{
+    float h, der2atanX, der3atanX, derPoint;
+    int i, steps;
+
+    cout << "Choose number of steps: " << endl;
+    cin >> steps;
+    derPoint = sqrt(2);
+
+    float x[steps];
+    x[0] = 0.;
+    h = 3./steps;
+
+    // Defining valid x values for which we can find a derivative
+    for(i=0; i<steps; i++){
+        x[i] += h;
+    }
+
+    // Computing derivatives
+    der2atanX = (atan(derPoint+h)-atan(derPoint))/h;
+    der3atanX = (atan(derPoint+h)-atan(derPoint-h))/(2.*h);
+
+    return;
+}
+
+
+
+void ddx(int N, double h, double* x, double* result) {
+
+    // x = 0, 1,2,3,4..,x_max
+
+    for (i ... N) {
+        der2atanX = (atan(x[i]+h)-atan(x[i])) / h;
+        result[i] = der2atanX;
+    }
+}
 
 
 
@@ -124,6 +187,8 @@ The one starting at n=N is the most reliable one?
 
 
 BUT
+
+
 
 
 
