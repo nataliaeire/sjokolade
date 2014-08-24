@@ -8,7 +8,7 @@
 using namespace std;
 
 int oppg22(int N, ofstream* file);
-void oppg31();
+float oppg31_stepSize(float topValue, int steps);
 
 int main()
 {
@@ -56,6 +56,15 @@ int main()
 
 
     // Second of the recommended questions; problem 3.1
+    int topValue, steps, stepSize;
+    float derPoint;
+
+    cout << "Choose number of steps: " << endl;
+    cin >> steps;
+    topValue = 3;
+    derPoint = sqrt(2);
+
+    stepSize = oppg31_stepSize(topValue, steps);
 
     x = linspace();
     double* result = new double(N);
@@ -146,6 +155,22 @@ void oppg31()
     return;
 }
 
+float oppg31_stepSize(float topValue, int steps){
+    float h
+    h = topValue./steps;
+    return 0;
+}
+
+float oppg31_allXValues(int steps, float h)
+{
+    float x[steps];
+    int i;
+    x[0] = 0.;
+    for(i = 1; i < steps; i++){
+        x[i] = x[i-1] + h;
+    }
+    return 0;
+}
 
 
 void ddx(int N, double h, double* x, double* result) {
